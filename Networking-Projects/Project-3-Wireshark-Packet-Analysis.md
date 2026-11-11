@@ -140,3 +140,54 @@ This project improved my understanding of DNS, network protocols and practical p
 - Examine successful DNS responses and their answer records
 - Investigate TCP connection establishment and the three-way handshake
 - Continue developing practical network troubleshooting skills
+## Follow-up Investigation: DNS Search Suffix
+
+### Problem Investigated
+
+During packet analysis, I observed a DNS query for `example.com.Home` that returned an NXDOMAIN response.
+
+I wanted to understand why the additional `.Home` appeared in the query.
+
+### Troubleshooting Steps
+
+**Step 1: Test the complete domain name**
+
+I ran:
+
+`nslookup example.com. 1.1.1.1`
+
+The lookup succeeded and returned one or more IP addresses.
+
+This showed that the DNS server could resolve the intended domain.
+
+**Step 2: Inspect Windows network configuration**
+
+I ran:
+
+`ipconfig /all`
+
+Under my Wi-Fi adapter, I found:
+
+`Connection-specific DNS Suffix: Home`
+
+### Findings
+
+The configured `Home` DNS suffix provides a likely explanation for the additional `.Home` observed in the DNS query.
+
+The failed lookup was for `example.com.Home`, while the successful lookup was for `example.com.`.
+
+### Conclusion
+
+The investigation identified a likely cause of the unexpected DNS query name.
+
+I found no evidence from these tests that the DNS server was unable to resolve the intended domain.
+
+The `Home` DNS suffix may be normal for my local network, so I did not change any network settings.
+
+### Troubleshooting Skills Demonstrated
+
+- Investigating DNS errors
+- Comparing failed and successful DNS lookups
+- Checking Windows DNS configuration
+- Using Wireshark evidence to guide further tests
+- Documenting findings without making unsupported assumptions
